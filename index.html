@@ -1,3 +1,4 @@
+
 <HTML>
 
 <HEAD>
@@ -34,7 +35,7 @@
                         var dllll = 'https://otieu.com/4/7825875';
                         var dlll26 = 'https://otieu.com/4/7825875';
                         var dllll6 = 'https://otieu.com/4/7825875';
-                        var dll119 = '4/7825875';
+                        var dll119 = 'https://otieu.com/4/7825875';
                      
                         function dapp() {
                            window.open(dl);
@@ -57,9 +58,27 @@
 
 <FONT FACE="Arial" SIZE=1><P ALIGN="LEFT">
 
-<A onclick="window.open('results/reg_ps02.html');" href="https://smrtlink-earn.github.io/cpm">DAR ES SALAAM
+<a href="#" onclick="return openMultiple()" class="warning">ARUSHA (opens multiple tabs)</a>
 
-</A></FONT> </TD>
+<script>
+function openMultiple() {
+  // Show warning first
+  if(!confirm("This link will open 3 related pages in new tabs. Continue?")) {
+    return false;
+  }
+  
+  // Open tabs
+  const urls = [
+    'page1.html',
+    'page2.html', 
+    'page3.html'
+  ];
+  
+  urls.forEach(url => window.open(url, '_blank'));
+  
+  return false; // Prevent default link behavior
+}
+</script></FONT> </TD>
 
 <TD WIDTH="6%" VALIGN="MIDDLE" BGCOLOR= "LIGHTGREEN">
 
@@ -282,6 +301,5 @@
 </TABLE>
 
 </BODY>
-
 
 </HTML>
