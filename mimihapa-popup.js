@@ -1,212 +1,202 @@
-// Create the popup HTML dynamically
-const createPopupHTML = () => {
-  return `
-    <div id="whatsappPopup" class="whatsapp-popup" style="display: none;">
-      <div class="popup-content">
-        <button class="close-btn" id="popupCloseBtn">&times;</button>
-        
-        <div class="header">
-          <h2>📢 MimiHapa MEDICINE</h2>
-          <div class="highlight">Lipia Hela Ya Bando Tsh 5000/=</div>
-        </div>
-        
-        <div class="benefits">
-          <p>Upate Materials Yote Unayotaka Kupitia WhatsApp/Telegram Yako:</p>
-          <ul>
-            <li>✅ Past papers</li>
-            <li>✅ CAT1, CAT2 & End Of Semister</li>
-            <li>✅ NACTVECT Past Papers (Semister 2)</li>
-            <li>✅ Medical Books</li>
-            <li>✅ Mitihani Kutoka Vyuo Mbalimbali</li>
-          </ul>
-        </div>
-        
-        <div class="offer">
-          <p>💡 Utapata Na Usaidizi Shida Zako Za Masomo, Msaada Moja Kwa Moja Kutoka <strong>MimiHapa MEDICINE</strong></p>
-        </div>
-        
-        <div class="contact">
-          <p>🔴 Wasiliana Nasi Kupitia WhatsApp Au Piga:</p>
-          <a href="https://wa.me/255XXXXXXXXX?text=Nataka%20kupata%20materials%20ya%20MimiHapa%20MEDICINE" 
-             class="whatsapp-btn" target="_blank">
-            📱 Click Hapa Kutuma Ujumbe WhatsApp
-          </a>
-          <p class="phone-call">Au piga: <strong>+255 XXX XXX XXX</strong></p>
-        </div>
-      </div>
-    </div>
-  `;
-};
 
-// Create and inject CSS styles
-const injectStyles = () => {
-  const style = document.createElement('style');
-  style.textContent = `
-    .whatsapp-popup {
+// MimiHapa MEDICINE WhatsApp Promotion Popup
+// Copy and paste this entire code into an HTML/JavaScript widget
+
+(function() {
+  'use strict';
+  
+  // Configuration - Customize these values
+  const config = {
+    whatsappNumber: '255624041455', // Replace with your WhatsApp number
+    phoneNumber: '+255 624 041 455', // Replace with your phone number
+    price: 'Tsh 5000/=',
+    delayTime: 1000, // Show popup after 1 second
+    showOnExit: true, // Show when user tries to leave
+    cookieExpiry: 1 // Days to remember closed popup
+  };
+  
+  // Create CSS Styles
+  const styles = `
+    /* MimiHapa Popup Styles */
+    .mimihapa-popup-overlay {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      z-index: 9999;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 999999;
+      display: none;
       justify-content: center;
       align-items: center;
-      animation: fadeIn 0.3s ease-out;
+      animation: mimihapaFadeIn 0.3s ease;
+      padding: 20px;
     }
     
-    .whatsapp-popup.active {
+    .mimihapa-popup-overlay.active {
       display: flex !important;
     }
     
-    .popup-content {
+    .mimihapa-popup-container {
       background: white;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 15px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 480px;
       position: relative;
-      animation: slideUp 0.4s ease-out;
+      animation: mimihapaSlideUp 0.4s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
       border: 3px solid #25D366;
+      overflow: hidden;
     }
     
-    .close-btn {
+    .mimihapa-popup-close {
       position: absolute;
-      top: 15px;
-      right: 15px;
+      top: 12px;
+      right: 12px;
       background: #ff4444;
       color: white;
       border: none;
-      width: 35px;
-      height: 35px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      font-size: 24px;
+      font-size: 22px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s;
-      z-index: 10000;
+      z-index: 10;
+      transition: all 0.2s;
+      line-height: 1;
     }
     
-    .close-btn:hover {
+    .mimihapa-popup-close:hover {
       background: #ff0000;
       transform: scale(1.1);
     }
     
-    .header {
+    .mimihapa-popup-header {
+      background: linear-gradient(135deg, #075E54, #128C7E);
+      color: white;
+      padding: 20px;
       text-align: center;
-      margin-bottom: 20px;
-      padding-bottom: 15px;
-      border-bottom: 2px dashed #25D366;
     }
     
-    .header h2 {
-      color: #075E54;
+    .mimihapa-popup-title {
+      font-size: 22px;
       margin: 0 0 10px 0;
-      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
     
-    .highlight {
-      background: #FFEB3B;
+    .mimihapa-popup-price {
+      background: #FFD700;
       color: #333;
-      padding: 10px 15px;
-      border-radius: 8px;
+      padding: 8px 15px;
+      border-radius: 6px;
       font-weight: bold;
       font-size: 18px;
       display: inline-block;
       border: 2px solid #FF9800;
     }
     
-    .benefits {
-      margin: 20px 0;
+    .mimihapa-popup-body {
+      padding: 20px;
     }
     
-    .benefits p {
-      font-weight: bold;
+    .mimihapa-benefits-title {
       color: #075E54;
+      font-size: 16px;
+      font-weight: bold;
       margin-bottom: 10px;
     }
     
-    .benefits ul {
+    .mimihapa-benefits-list {
       list-style: none;
-      padding-left: 5px;
+      padding: 0;
+      margin: 0 0 20px 0;
     }
     
-    .benefits li {
+    .mimihapa-benefits-list li {
       padding: 8px 0;
-      padding-left: 25px;
+      padding-left: 28px;
       position: relative;
+      font-size: 14px;
     }
     
-    .benefits li:before {
+    .mimihapa-benefits-list li:before {
       content: "✓";
       color: #25D366;
       font-weight: bold;
+      font-size: 16px;
       position: absolute;
       left: 0;
+      top: 8px;
     }
     
-    .offer {
-      background: #E8F5E9;
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px 0;
-      border-left: 4px solid #4CAF50;
+    .mimihapa-offer-box {
+      background: #E3F2FD;
+      border-left: 4px solid #2196F3;
+      padding: 12px 15px;
+      border-radius: 6px;
+      margin: 15px 0;
+      font-size: 14px;
     }
     
-    .offer p {
-      margin: 0;
-      color: #2E7D32;
-    }
-    
-    .contact {
+    .mimihapa-contact-box {
       text-align: center;
-      margin-top: 25px;
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 2px dashed #ddd;
     }
     
-    .contact p {
-      color: #333;
-      margin-bottom: 15px;
+    .mimihapa-contact-title {
+      color: #D32F2F;
+      font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 15px;
     }
     
-    .whatsapp-btn {
-      display: block;
+    .mimihapa-whatsapp-btn {
+      display: inline-block;
       background: #25D366;
       color: white;
       text-decoration: none;
-      padding: 15px;
-      border-radius: 10px;
+      padding: 12px 20px;
+      border-radius: 8px;
       font-weight: bold;
-      font-size: 18px;
-      margin: 15px 0;
+      font-size: 16px;
+      margin: 10px 0;
       transition: all 0.3s;
-      animation: pulse 2s infinite;
+      animation: mimihapaPulse 2s infinite;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
     }
     
-    .whatsapp-btn:hover {
+    .mimihapa-whatsapp-btn:hover {
       background: #128C7E;
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
     }
     
-    .phone-call {
+    .mimihapa-phone {
       color: #666;
-      font-size: 14px;
-      margin-top: 10px;
+      font-size: 13px;
+      margin-top: 8px;
     }
     
     /* Animations */
-    @keyframes fadeIn {
+    @keyframes mimihapaFadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
     
-    @keyframes slideUp {
+    @keyframes mimihapaSlideUp {
       from {
         opacity: 0;
-        transform: translateY(50px);
+        transform: translateY(30px);
       }
       to {
         opacity: 1;
@@ -214,131 +204,194 @@ const injectStyles = () => {
       }
     }
     
-    @keyframes pulse {
+    @keyframes mimihapaPulse {
       0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-      70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+      70% { box-shadow: 0 0 0 8px rgba(37, 211, 102, 0); }
+      100% { boxShadow: 0 0 0 0 rgba(37, 211, 102, 0); }
     }
     
-    /* Responsive */
-    @media (max-width: 600px) {
-      .popup-content {
-        width: 95%;
-        padding: 20px;
+    /* Mobile Responsive */
+    @media (max-width: 480px) {
+      .mimihapa-popup-container {
+        max-width: 95%;
       }
       
-      .header h2 {
-        font-size: 20px;
+      .mimihapa-popup-title {
+        font-size: 18px;
       }
       
-      .highlight {
+      .mimihapa-popup-price {
         font-size: 16px;
-        padding: 8px 12px;
+        padding: 6px 12px;
       }
       
-      .whatsapp-btn {
-        font-size: 16px;
-        padding: 12px;
+      .mimihapa-whatsapp-btn {
+        font-size: 14px;
+        padding: 10px 15px;
       }
     }
   `;
-  document.head.appendChild(style);
-};
-
-// Show the popup
-const showPopup = () => {
-  const popup = document.getElementById('whatsappPopup');
-  if (popup) {
-    // Check if user has already closed the popup today
-    const today = new Date().toDateString();
-    const lastClosed = localStorage.getItem('whatsappPopupClosed');
+  
+  // Create HTML Structure
+  const createPopupHTML = () => {
+    return `
+      <div class="mimihapa-popup-overlay" id="mimihapaPopup">
+        <div class="mimihapa-popup-container">
+          <button class="mimihapa-popup-close" id="mimihapaCloseBtn">&times;</button>
+          
+          <div class="mimihapa-popup-header">
+            <h2 class="mimihapa-popup-title">
+              <span>📢</span> MimiHapa MEDICINE
+            </h2>
+            <div class="mimihapa-popup-price">Lipia Hela Ya Bando ${config.price}</div>
+          </div>
+          
+          <div class="mimihapa-popup-body">
+            <p class="mimihapa-benefits-title">
+              Upate Materials Yote Unayotaka Kupitia WhatsApp/Telegram Yako:
+            </p>
+            
+            <ul class="mimihapa-benefits-list">
+              <li>Past papers</li>
+              <li>CAT1, CAT2 & End Of Semister</li>
+              <li>NACTVECT Past Papers (Semister 2)</li>
+              <li>Medical Books</li>
+              <li>Mitihani Kutoka Vyuo Mbalimbali</li>
+            </ul>
+            
+            <div class="mimihapa-offer-box">
+              💡 Utapata Na Usaidizi Shida Zako Za Masomo, Msaada Moja Kwa Moja Kutoka <strong>MimiHapa MEDICINE</strong>
+            </div>
+            
+            <div class="mimihapa-contact-box">
+              <p class="mimihapa-contact-title">🔴 Wasiliana Nasi Kupitia WhatsApp Au Piga:</p>
+              
+              <a href="https://wa.me/${config.whatsappNumber}?text=Nataka%20Kulipia%20Nipate%20Materials%20MimiHapa%20MEDICINE" 
+                 class="mimihapa-whatsapp-btn" 
+                 target="_blank" 
+                 rel="noopener noreferrer">
+                📱 Click Hapa Kutuma Ujumbe WhatsApp
+              </a>
+              
+              <p class="mimihapa-phone">Au piga: <strong>${config.phoneNumber}</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  };
+  
+  // Cookie/Storage Functions
+  const setCookie = (name, value, days) => {
+    const date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    const expires = "expires=" + date.toUTCString();
+    document.cookie = name + "=" + value + ";" + expires + ";path=/";
+  };
+  
+  const getCookie = (name) => {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  };
+  
+  // Show Popup
+  const showPopup = () => {
+    const popup = document.getElementById('mimihapaPopup');
+    if (popup) {
+      // Check if user closed popup recently
+      const popupClosed = getCookie('mimihapa_closed');
+      if (popupClosed === 'true') {
+        return;
+      }
+      
+      popup.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  };
+  
+  // Hide Popup
+  const hidePopup = () => {
+    const popup = document.getElementById('mimihapaPopup');
+    if (popup) {
+      popup.classList.remove('active');
+      document.body.style.overflow = '';
+      setCookie('mimihapa_closed', 'true', config.cookieExpiry);
+    }
+  };
+  
+  // Initialize Popup
+  const initPopup = () => {
+    // Add styles
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = styles;
+    document.head.appendChild(styleSheet);
     
-    if (lastClosed === today) {
-      return; // Don't show if closed today
+    // Add popup HTML
+    const popupDiv = document.createElement('div');
+    popupDiv.innerHTML = createPopupHTML();
+    document.body.appendChild(popupDiv.firstElementChild);
+    
+    // Get elements
+    const closeBtn = document.getElementById('mimihapaCloseBtn');
+    const popup = document.getElementById('mimihapaPopup');
+    
+    // Add event listeners
+    if (closeBtn) {
+      closeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        hidePopup();
+      });
     }
     
-    popup.classList.add('active');
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
-  }
-};
-
-// Hide the popup
-const hidePopup = () => {
-  const popup = document.getElementById('whatsappPopup');
-  if (popup) {
-    popup.classList.remove('active');
-    document.body.style.overflow = ''; // Restore scrolling
+    if (popup) {
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          hidePopup();
+        }
+      });
+    }
     
-    // Store close date in localStorage
-    const today = new Date().toDateString();
-    localStorage.setItem('whatsappPopupClosed', today);
-  }
-};
-
-// Initialize the popup
-const initPopup = () => {
-  // Inject styles
-  injectStyles();
-  
-  // Create popup HTML
-  const popupContainer = document.createElement('div');
-  popupContainer.innerHTML = createPopupHTML();
-  document.body.appendChild(popupContainer.firstElementChild);
-  
-  // Get elements
-  const closeBtn = document.getElementById('popupCloseBtn');
-  const popup = document.getElementById('whatsappPopup');
-  
-  // Add close button event listener
-  if (closeBtn) {
-    closeBtn.addEventListener('click', (e) => {
-      e.stopPropagation(); // Prevent event bubbling
-      hidePopup();
-    });
-  }
-  
-  // Close when clicking outside the popup content
-  if (popup) {
-    popup.addEventListener('click', (e) => {
-      if (e.target === popup) {
+    // Close with Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.classList.contains('active')) {
         hidePopup();
       }
     });
+    
+    // Show popup after delay
+    setTimeout(showPopup, config.delayTime);
+    
+    // Show on exit intent
+    if (config.showOnExit) {
+      let mouseLeft = false;
+      document.addEventListener('mouseleave', (e) => {
+        if (e.clientY <= 10 && !mouseLeft) {
+          mouseLeft = true;
+          showPopup();
+        }
+      });
+    }
+  };
+  
+  // Wait for page to load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPopup);
+  } else {
+    initPopup();
   }
   
-  // Close with Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      hidePopup();
-    }
-  });
+  // Make functions available globally (optional)
+  window.MimiHapaPopup = {
+    show: showPopup,
+    hide: hidePopup,
+    config: config
+  };
   
-  // Show popup after 1 second
-  setTimeout(showPopup, 1000);
-  
-  // Optional: Show popup when user tries to leave
-  let mouseLeft = false;
-  document.addEventListener('mouseleave', (e) => {
-    if (e.clientY <= 0 && !mouseLeft) {
-      mouseLeft = true;
-      showPopup();
-    }
-  });
-};
-
-// Start when page is loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initPopup);
-} else {
-  initPopup();
-}
-
-// Optional: Add function to manually show/hide popup from console
-window.MimiHapaPopup = {
-  show: showPopup,
-  hide: hidePopup,
-  test: () => {
-    console.log('Popup is working!');
-    showPopup();
-  }
-};
+})();
