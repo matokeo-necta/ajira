@@ -1,4 +1,4 @@
-<script>
+
 // MimiHapa MEDICINE WhatsApp Promotion Popup
 // Copy and paste this entire code into an HTML/JavaScript widget
 
@@ -395,4 +395,4 @@
   };
   
 })();
-</script>
+
