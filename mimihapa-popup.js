@@ -1,9 +1,9 @@
 // Create the popup HTML dynamically
 const createPopupHTML = () => {
   return `
-    <div id="whatsappPopup" class="whatsapp-popup">
+    <div id="whatsappPopup" class="whatsapp-popup" style="display: none;">
       <div class="popup-content">
-        <button class="close-btn">&times;</button>
+        <button class="close-btn" id="popupCloseBtn">&times;</button>
         
         <div class="header">
           <h2>📢 MimiHapa MEDICINE</h2>
@@ -27,7 +27,7 @@ const createPopupHTML = () => {
         
         <div class="contact">
           <p>🔴 Wasiliana Nasi Kupitia WhatsApp Au Piga:</p>
-          <a href="https://wa.me/255624041455?text=Nataka%20kupata%20materials%20ya%20MimiHapa%20MEDICINE" 
+          <a href="https://wa.me/255624041455?text=Nalipia%20Bando%20Nitumie%20Materials%20Yote" 
              class="whatsapp-btn" target="_blank">
             📱 Click Hapa Kutuma Ujumbe WhatsApp
           </a>
@@ -43,7 +43,6 @@ const injectStyles = () => {
   const style = document.createElement('style');
   style.textContent = `
     .whatsapp-popup {
-      display: none;
       position: fixed;
       top: 0;
       left: 0;
@@ -54,6 +53,10 @@ const injectStyles = () => {
       justify-content: center;
       align-items: center;
       animation: fadeIn 0.3s ease-out;
+    }
+    
+    .whatsapp-popup.active {
+      display: flex !important;
     }
     
     .popup-content {
@@ -84,6 +87,7 @@ const injectStyles = () => {
       align-items: center;
       justify-content: center;
       transition: all 0.3s;
+      z-index: 10000;
     }
     
     .close-btn:hover {
@@ -105,12 +109,12 @@ const injectStyles = () => {
     }
     
     .highlight {
-      background: #F9F9F9;
+      background: #FFEB3B;
       color: #333;
       padding: 10px 15px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 26px;
+      font-size: 18px;
       display: inline-block;
       border: 2px solid #FF9800;
     }
@@ -245,8 +249,6 @@ const injectStyles = () => {
 const showPopup = () => {
   const popup = document.getElementById('whatsappPopup');
   if (popup) {
-    popup.style.display = 'flex';
-    
     // Check if user has already closed the popup today
     const today = new Date().toDateString();
     const lastClosed = localStorage.getItem('whatsappPopupClosed');
@@ -254,6 +256,9 @@ const showPopup = () => {
     if (lastClosed === today) {
       return; // Don't show if closed today
     }
+    
+    popup.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling
   }
 };
 
@@ -261,7 +266,8 @@ const showPopup = () => {
 const hidePopup = () => {
   const popup = document.getElementById('whatsappPopup');
   if (popup) {
-    popup.style.display = 'none';
+    popup.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
     
     // Store close date in localStorage
     const today = new Date().toDateString();
@@ -279,14 +285,19 @@ const initPopup = () => {
   popupContainer.innerHTML = createPopupHTML();
   document.body.appendChild(popupContainer.firstElementChild);
   
-  // Add event listeners
-  const closeBtn = document.querySelector('.close-btn');
+  // Get elements
+  const closeBtn = document.getElementById('popupCloseBtn');
   const popup = document.getElementById('whatsappPopup');
   
+  // Add close button event listener
   if (closeBtn) {
-    closeBtn.addEventListener('click', hidePopup);
+    closeBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Prevent event bubbling
+      hidePopup();
+    });
   }
   
+  // Close when clicking outside the popup content
   if (popup) {
     popup.addEventListener('click', (e) => {
       if (e.target === popup) {
@@ -295,12 +306,21 @@ const initPopup = () => {
     });
   }
   
+  // Close with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      hidePopup();
+    }
+  });
+  
   // Show popup after 1 second
   setTimeout(showPopup, 1000);
   
   // Optional: Show popup when user tries to leave
+  let mouseLeft = false;
   document.addEventListener('mouseleave', (e) => {
-    if (e.clientY <= 0) {
+    if (e.clientY <= 0 && !mouseLeft) {
+      mouseLeft = true;
       showPopup();
     }
   });
@@ -316,5 +336,9 @@ if (document.readyState === 'loading') {
 // Optional: Add function to manually show/hide popup from console
 window.MimiHapaPopup = {
   show: showPopup,
-  hide: hidePopup
+  hide: hidePopup,
+  test: () => {
+    console.log('Popup is working!');
+    showPopup();
+  }
 };
