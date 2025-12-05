@@ -27,11 +27,11 @@ const createPopupHTML = () => {
         
         <div class="contact">
           <p>🔴 Wasiliana Nasi Kupitia WhatsApp Au Piga:</p>
-          <a href="https://wa.me/255XXXXXXXXX?text=Nataka%20kupata%20materials%20ya%20MimiHapa%20MEDICINE" 
+          <a href="https://wa.me/255624041455?text=Nataka%20kupata%20materials%20ya%20MimiHapa%20MEDICINE" 
              class="whatsapp-btn" target="_blank">
             📱 Click Hapa Kutuma Ujumbe WhatsApp
           </a>
-          <p class="phone-call">Au piga: <strong>+255 XXX XXX XXX</strong></p>
+          <p class="phone-call">Au piga: <strong>+255 624 041 455</strong></p>
         </div>
       </div>
     </div>
@@ -105,12 +105,12 @@ const injectStyles = () => {
     }
     
     .highlight {
-      background: #FFEB3B;
+      background: #F9F9F9;
       color: #333;
       padding: 10px 15px;
       border-radius: 8px;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 26px;
       display: inline-block;
       border: 2px solid #FF9800;
     }
