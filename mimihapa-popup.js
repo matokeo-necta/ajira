@@ -7,8 +7,8 @@
   
   // Configuration - Customize these values
   const config = {
-    whatsappNumber: '255624041455', // Replace with your WhatsApp number
-    phoneNumber: '+255 624 041 455', // Replace with your phone number
+    whatsappNumber: '255710242581', // Replace with your WhatsApp number
+    phoneNumber: '+255 710 242 581', // Replace with your phone number
     price: 'Tsh 5000/=',
     delayTime: 1000, // Show popup after 1 second
     showOnExit: true, // Show when user tries to leave
