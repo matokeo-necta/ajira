@@ -243,7 +243,7 @@
             <h2 class="mimihapa-popup-title">
               <span>📢</span> MimiHapa MEDICINE
             </h2>
-            <div class="mimihapa-popup-price">Lipia Hela Ya Bando ${config.price}</div>
+            <div class="mimihapa-popup-price">Lipia ${config.price} Kama Ya Bando</div>
           </div>
           
           <div class="mimihapa-popup-body">
@@ -251,13 +251,14 @@
               Upate Materials Yote Unayotaka Kupitia WhatsApp/Telegram Yako:
             </p>
             
-            <ul class="mimihapa-benefits-list">
+            <center><ul class="mimihapa-benefits-list">
+            <li>Notes Za Wizara</li>
               <li>Past papers</li>
               <li>CAT1, CAT2 & End Of Semister</li>
               <li>NACTVECT Past Papers (Semister 2)</li>
               <li>Medical Books</li>
               <li>Mitihani Kutoka Vyuo Mbalimbali</li>
-            </ul>
+            </ul></center>
             
             <div class="mimihapa-offer-box">
               💡 Utapata Na Usaidizi Shida Zako Za Masomo, Msaada Moja Kwa Moja Kutoka <strong>MimiHapa MEDICINE</strong>
